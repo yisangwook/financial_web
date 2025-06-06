@@ -3,6 +3,8 @@
 from sqlalchemy import Column, Integer, BigInteger, DateTime
 from datetime import datetime
 from database import Base
+from sqlalchemy import ForeignKey, String, Boolean # String, Boolean, ForeignKey 임포트
+from sqlalchemy.orm import relationship # relationship 임포트
 
 class NetWorthRecord(Base):
     __tablename__ = "networth_records" # 테이블 이름 변경 (더 명확하게)

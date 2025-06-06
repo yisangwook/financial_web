@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import networth
+from routers import auth # auth 라우터 임포트
 import models
 from database import engine
 
@@ -25,4 +26,5 @@ app.add_middleware(
 )
 
 # networth.py에 정의된 라우터들을 앱에 포함시킵니다.
+app.include_router(auth.router) # auth 라우터 포함
 app.include_router(networth.router)
