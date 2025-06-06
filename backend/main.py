@@ -1,20 +1,25 @@
-
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 app = FastAPI()
 
+# 허용할 출처 목록
+origins = [
+    "http://localhost:3000",  # 로컬 개발 환경
+    "https://financial-web-kes9a-yisangouks-projects.vercel.app" # Vercel 프론트엔드 주소
+]
+
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,  # 수정된 부분
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 입력 데이터 모델
+# --- 이하 코드는 그대로 ---
 class FinancialData(BaseModel):
     cash: int
     stock: int
@@ -24,7 +29,6 @@ class FinancialData(BaseModel):
     credit_card: int
     jeonse: int
 
-# 순자산 계산 API
 @app.post("/api/networth")
 def calculate_net_worth(data: FinancialData):
     total_assets = data.cash + data.stock + data.savings + data.real_estate
