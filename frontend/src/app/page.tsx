@@ -32,7 +32,13 @@ export default function Home() {
     }
   }, []);
 
-  const [result, setResult] = useState<any>(null);
+  type ResultType = {
+    total_assets: number;
+    total_liabilities: number;
+    net_worth: number;
+  };
+
+  const [result, setResult] = useState<ResultType | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,7 +53,7 @@ export default function Home() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
-    const data = await res.json();
+    const data: ResultType = await res.json();
     setResult(data);
   };
 
