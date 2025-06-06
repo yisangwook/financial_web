@@ -122,11 +122,11 @@ export default function Home() {
         </div>
       )}
 
-      {result && (
+      {result && getChartData() && (
         <div style={{ marginTop: 40 }}>
           <h3>📉 자산/부채 시각화</h3>
           <div style={{ maxWidth: 500 }}>
-            <Bar data={getChartData()} />
+            <Bar data={getChartData()!} />
           </div>
         </div>
       )}
