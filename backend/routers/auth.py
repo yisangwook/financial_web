@@ -27,7 +27,7 @@ class User(BaseModel): # 사용자 정보 응답 모델 (비밀번호 제외)
     is_active: bool
 
     class Config:
-        orm_mode = True # SQLAlchemy 모델과 매핑
+        from_attributes = True # SQLAlchemy 모델과 매핑 (Pydantic V2 변경 사항)
 
 # --- 사용자 등록 엔드포인트 ---
 @router.post("/register", response_model=User)

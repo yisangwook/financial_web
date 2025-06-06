@@ -25,3 +25,15 @@ class NetWorthRecord(Base):
     total_assets = Column(BigInteger)
     total_liabilities = Column(BigInteger)
     net_worth = Column(BigInteger)
+
+    # 사용자 관계 추가 (이 부분은 순자산 기록을 사용자별로 분리할 때 필요합니다)
+    # user_id = Column(Integer, ForeignKey("users.id"))
+    # owner = relationship("User", backref="networth_records") # User 모델과의 관계 설정
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True) # 사용자 이름 (고유해야 함)
+    hashed_password = Column(String) # 해싱된 비밀번호
+    is_active = Column(Boolean, default=True) # 사용자 활성화 상태 (선택 사항)
