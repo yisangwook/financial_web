@@ -60,6 +60,7 @@ export default function Home() {
     setForm(updatedForm);
     localStorage.setItem("financial_form", JSON.stringify(updatedForm));
   };
+// page.tsx
 
   const handleSubmit = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/networth`, {
@@ -69,6 +70,10 @@ export default function Home() {
     });
     const data: ResultType = await res.json();
     setResult(data);
+
+    // ✅ 이 줄을 추가하세요!
+    // 새 계산 결과를 history 상태의 맨 뒤에 추가하여 목록을 바로 업데이트합니다.
+    setHistory(prevHistory => [...prevHistory, data]);
   };
 
   const getChartData = (): ChartData<"bar"> | null => {

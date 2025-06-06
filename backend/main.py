@@ -1,34 +1,28 @@
-import { useEffect, useState } from 'react';
+# yisangwook/financial_web/financial_web-146fb0d6e55801ae7ac6fdd7de80954704459859/backend/main.py
 
-const YourComponent = () => {
-  const [networthRecords, setNetworthRecords] = useState<any[]>([]);
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routers import networth
+import models
+from database import engine
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("https://financial-web-backend.onrender.com/api/networth");
-        const data = await res.json();
-        setNetworthRecords(data);
-      } catch (error) {
-        console.error("Failed to fetch net worth data:", error);
-      }
-    };
+# models.py에 정의된 모든 테이블을 데이터베이스에 생성합니다.
+models.Base.metadata.create_all(bind=engine)
 
-    fetchData();
-  }, []);
+app = FastAPI()
 
-  return (
-    <div>
-      <h3>💾 저장된 순자산 기록</h3>
-      <ul>
-        {networthRecords.map((item, index) => (
-          <li key={index}>
-            총 자산: {item.total_assets} | 총 부채: {item.total_liabilities} | 순자산: {item.net_worth}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+# CORS 미들웨어 추가 (이 부분은 원래 코드와 동일합니다)
+origins = [
+    "http://localhost:3000",
+    "https://financial-web-mjhg.vercel.app"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-export default YourComponent;
+# networth.py에 정의된 라우터들을 앱에 포함시킵니다.
+app.include_router(networth.router)
