@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { ChartData } from "chart.js";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -57,7 +58,7 @@ export default function Home() {
     setResult(data);
   };
 
-  const getChartData = () => {
+  const getChartData = (): ChartData<"bar"> | null => {
     if (!result) return null;
 
     return {
