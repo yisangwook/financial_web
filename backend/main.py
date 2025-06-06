@@ -6,8 +6,8 @@ app = FastAPI()
 
 # 허용할 출처 목록
 origins = [
-    "http://localhost:3000",  # 로컬 개발 환경
-    "https://financial-web-kes9a-yisangouks-projects.vercel.app" # Vercel 프론트엔드 주소
+    "http://localhost:3000",  # local dev
+    "https://financial-web-mjhg.vercel.app"  # deployed Vercel frontend
 ]
 
 # CORS 설정
