@@ -39,6 +39,19 @@ export default function Home() {
     net_worth: number;
   };
 
+  const [history, setHistory] = useState<ResultType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/networth`);
+      if (res.ok) {
+        const data: ResultType[] = await res.json();
+        setHistory(data);
+      }
+    };
+    fetchData();
+  }, []);
+
   const [result, setResult] = useState<ResultType | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,6 +143,19 @@ export default function Home() {
           <div style={{ maxWidth: 500 }}>
             <Bar data={chartData} />
           </div>
+        </div>
+      )}
+
+      {history.length > 0 && (
+        <div style={{ marginTop: 40 }}>
+          <h3>📁 이전 순자산 기록</h3>
+          <ul>
+            {history.map((entry, idx) => (
+              <li key={idx}>
+                자산: {entry.total_assets.toLocaleString()} 원 / 부채: {entry.total_liabilities.toLocaleString()} 원 / 순자산: {entry.net_worth.toLocaleString()} 원
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </main>
